@@ -1,16 +1,59 @@
 <script>
+    import { SearchContactByName, SearchContactByOrg } from "../wailsjs/go/main/App.js";
+
     let searchTerm = "";
-	let columns = ["Name", "Email", "Phone Number"]
+	let columns = ["Name", "Company", "Site", "Role", "Email", "Phone #1", "Phone #2"]
     let contacts = [];
     let resultsVisible = false
 
-    function displaySearch() {
-        resultsVisible = true
-        contacts =  [
-            ["John", "john@example.com", "(353) 01 222 3333"],
-            ["Sarah", "sarah@gmail.com", "(01) 22 888 4444"],
-            ["Afshin", "afshin@mail.com", "(353) 22 87 8356"]
-        ]
+    async function searchName() {
+        contacts = [];
+        let APIResponse = SearchContactByName(searchTerm)
+        let ResponseJson = JSON.parse(await APIResponse)
+        let tempContacts = [];
+        ResponseJson.forEach(contact => {
+            let x = [];
+            x[0] = contact.name
+            x[1] = contact.company
+            x[2] = contact.site
+            x[3] = contact.role
+            x[4] = '<a href="mailto:' + contact.email +'">' + contact.email + '</a>'
+            x[5] = contact.phone1
+            x[6] = contact.phone2
+            tempContacts.push(x)
+        });
+        if (tempContacts.length > 0) {
+            contacts = tempContacts
+            resultsVisible = true
+        } else {
+            resultsVisible = false
+            contacts = []
+        }
+    }
+
+    async function searchOrgs() {
+        contacts = [];
+        let APIResponse = SearchContactByOrg(searchTerm)
+        let ResponseJson = JSON.parse(await APIResponse)
+        let tempContacts = [];
+        ResponseJson.forEach(contact => {
+            let x = [];
+            x[0] = contact.name
+            x[1] = contact.company
+            x[2] = contact.site
+            x[3] = contact.role
+            x[4] = '<a href="mailto:' + contact.email +'">' + contact.email + '</a>'
+            x[5] = contact.phone1
+            x[6] = contact.phone2
+            tempContacts.push(x)
+        })
+        if (tempContacts.length > 0) {
+            contacts = tempContacts
+            resultsVisible = true
+        } else {
+            resultsVisible = false
+            contacts = []
+        }
     }
 
     function clearResults() {
@@ -25,9 +68,12 @@
     
 <input type="searchVal" id="searchEntry" name="searchEntry" bind:value={searchTerm}><br>
     
-<button on:click={displaySearch}>
-    Search
-</button>    
+<button on:click={searchName}>
+    Search by Name
+</button>   
+<button on:click={searchOrgs}>
+    Search by Org
+</button>  
 <button on:click={clearResults}>
     Clear
 </button><br><br>
@@ -48,6 +94,8 @@
     </tr>
 {/each}
 </table>
+{:else }
+    <p>No results</p>
 {/if}
     
 <style>
