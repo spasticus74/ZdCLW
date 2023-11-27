@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/spasticus74/ZdCLW/service"
+	"github.com/spasticus74/ZdCLW/zd"
 )
 
 // App struct
@@ -31,9 +31,8 @@ func (a *App) SearchContactByName(searchTerm string) string {
 	contacts, _, err := s.ContactApi.GetContactsByName(context.TODO(), searchTerm)
 	if err != nil {
 		log.Println(err)
-	} else {
-		fmt.Print(contacts)
 	}
+
 	return contacts
 }
 
@@ -44,8 +43,12 @@ func (a *App) SearchContactByOrg(searchTerm string) string {
 	contacts, _, err := s.ContactApi.GetContactsByOrg(context.TODO(), searchTerm)
 	if err != nil {
 		log.Println(err)
-	} else {
-		fmt.Print(contacts)
 	}
+
 	return contacts
+}
+
+// return a list of organisation names
+func (a *App) GetOrgNames() []string {
+	return zd.GetOrgs()
 }
