@@ -1,7 +1,8 @@
 <script>
   import Tabs from "./Tabs.svelte";
-  import contactsTab from "./ContactsTab.svelte";
+  import ContactsTab from "./ContactsTab.svelte";
   import AddCallTab from "./AddCallTab.svelte";
+  import LoginTab from "./LoginTab.svelte";
 
   // List of tab items with labels, values and assigned components
   let items = [
@@ -11,7 +12,11 @@
     },
     { label: "Contacts",
       value: 2,
-      component: contactsTab
+      component: ContactsTab
+    },
+    { label: "Login",
+      value: 3,
+      component: LoginTab
     }
   ];
 </script>

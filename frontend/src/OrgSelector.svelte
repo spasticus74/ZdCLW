@@ -9,7 +9,7 @@
 
     onMount(async () => {
         let orgs = await GetOrgNames()
-        let so = ['Select an organisation...'];
+        let so = ['Organisation...'];
         orgs.forEach(org => {
             so.push(org)
         });
@@ -20,6 +20,7 @@
       value = siteOptions[index];
       console.log(value);
     }
+
   </script>
   
   <select bind:value={index}>
